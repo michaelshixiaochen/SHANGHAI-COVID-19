@@ -3,28 +3,9 @@
 #### 介绍
 2022年上海抗疫期间的一些代码
 
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+代码说明
+#### QRCODE_identification为第一稿，实现对抗原检测盒的批量识别
+#### QRCODE_identification_2为第二稿，增加将识别数据导出为excel文件功能
 
 
 #### 特技
