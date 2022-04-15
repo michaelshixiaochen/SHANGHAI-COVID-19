@@ -4,8 +4,13 @@
 2022年上海抗疫期间的一些代码
 
 代码说明
+
 #### QRCODE_identification为第一稿，实现对抗原检测盒的批量识别
+
 #### QRCODE_identification_2为第二稿，增加将识别数据导出为excel文件功能
+
+#### kindergarten 用于给幼儿园班内小朋友是否完成核酸、抗原检测的接龙进行统计
+
 
 
 #### 特技
