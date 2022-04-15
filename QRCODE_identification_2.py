@@ -12,16 +12,10 @@ def get_filelist(dir, Filelist):
     :param Filelist: 定义文件名列表，输入时一般为空
     :return Filelist: 返回文件名列表
     """
-    newDir = dir
     if os.path.isfile(dir):
         Filelist.append(dir)
-        # # 若只是要返回文件文，使用这个
-        # Filelist.append(os.path.basename(dir))
     elif os.path.isdir(dir):
         for s in os.listdir(dir):
-            # 如果需要忽略某些文件夹，使用以下代码
-            # if s == "xxx":
-            # continue
             newDir = os.path.join(dir, s)
             get_filelist(newDir, Filelist)
     return Filelist
@@ -38,11 +32,8 @@ def wechatcv(filename):
     img = cv2.imdecode(np.fromfile(filename, dtype=np.uint8),-1)
     res,points = detect_obj.detectAndDecode(img)    #res为识别结果，返回为字符串
     #print(filename[-10:-6]) #源程序读取的图片该4位为户号，此处可根据实际情况进行调整
-    #print('res:',res)
     kangyuanshuju['户名']=filename[-10:-6]
     kangyuanshuju['抗原编码']=res
-    #print('points:',points)
-
     '''
     #该段程序用于作图并定位二维码
     for pos in points:
@@ -94,7 +85,6 @@ if __name__ == '__main__':
     for filename in Filelist:
         kangyuan=wechatcv(filename)     #调用二维码识别函数
         kangyuanshuju.append(kangyuan)
-        #kangyuanshuju.update(kangyuan)  #更新抗原编码字典
     kangyuanshuju_sorted=json.dumps(kangyuanshuju, indent=4, ensure_ascii=False, sort_keys=True, separators=(',', ':'))    #格式化字典
     print(kangyuanshuju_sorted)
     export_excel(kangyuanshuju,excelname)
