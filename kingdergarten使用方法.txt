@@ -1,0 +1,5 @@
+1、name.csv为小朋友的名单
+2、可将接龙文本整个复制进data.txt中
+3、双击kindergarten.exe
+4、稍等片刻，会报出尚未接龙的名单。
+如出现需ms-gameoverlay的信息，可不理睬，直接点击黑色命令行窗口。
