@@ -3,6 +3,7 @@ import cv2
 import os
 import numpy as np
 import json
+import pandas as pd
 
 def get_filelist(dir, Filelist):
     """
@@ -31,8 +32,8 @@ def wechatcv(filename):
     img = cv2.imdecode(np.fromfile(filename, dtype=np.uint8),-1)
     res,points = detect_obj.detectAndDecode(img)    #res为识别结果，返回为字符串
     #print(filename[-10:-6]) #源程序读取的图片该4位为户号，此处可根据实际情况进行调整
-    kangyuanshuju.update({filename[-10:-6]:res})
-
+    kangyuanshuju['户名']=filename[-10:-6]
+    kangyuanshuju['抗原编码']=res
     '''
     #该段程序用于作图并定位二维码
     for pos in points:
@@ -50,17 +51,43 @@ def wechatcv(filename):
     '''
     return kangyuanshuju
 
+
+def export_excel(dic_data,excelname):
+    # 将字典列表转换为DataFrame
+    pf=pd.DataFrame(list(dic_data))
+    # 指定字段顺序
+    order=['户名', '抗原编码']
+    pf=pf[order]
+    # 将列名替换为中文
+    columns_map={
+        '户名': '户名',
+        '抗原编码': '抗原编码',
+    }
+    pf.rename(columns=columns_map, inplace=True)
+    # 指定生成的Excel表格名称
+    file_path=pd.ExcelWriter(excelname+'.xlsx')
+    # file_csv_path = pd.read_csv("compound.csv")
+    # 替换空单元格
+    pf.fillna(' ', inplace=True)
+    # 输出
+    pf.to_excel(file_path, encoding='utf-8', index=False)
+    # pf.to_csv(file_csv_path, encoding='utf-8', index=False)
+    # 保存表格
+    file_path.save()
+
 if __name__ == '__main__':
 
-    kangyuanshuju={}                    #定义抗原编码数据为字典
+    kangyuanshuju=[]                  #定义抗原编码数据为字典
     dir = input('请输入图片路径：')        #获得抗原图片路径
+    excelname=input('请输入输出的excel文件名')
     Filelist=get_filelist(dir,[])       #遍历文件夹获得所有图片名称
     #print(len(Filelist))
     for filename in Filelist:
         kangyuan=wechatcv(filename)     #调用二维码识别函数
-        kangyuanshuju.update(kangyuan)  #更新抗原编码字典
-    kangyuanshuju=json.dumps(kangyuanshuju, indent=4, ensure_ascii=False, sort_keys=True, separators=(',', ':'))    #格式化字典
-    print(kangyuanshuju)
+        kangyuanshuju.append(kangyuan)
+    kangyuanshuju_sorted=json.dumps(kangyuanshuju, indent=4, ensure_ascii=False, sort_keys=True, separators=(',', ':'))    #格式化字典
+    print(kangyuanshuju_sorted)
+    export_excel(kangyuanshuju,excelname)
     input("Press <enter>")
 
 
