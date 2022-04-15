@@ -11,16 +11,10 @@ def get_filelist(dir, Filelist):
     :param Filelist: 定义文件名列表，输入时一般为空
     :return Filelist: 返回文件名列表
     """
-    newDir = dir
     if os.path.isfile(dir):
         Filelist.append(dir)
-        # # 若只是要返回文件文，使用这个
-        # Filelist.append(os.path.basename(dir))
     elif os.path.isdir(dir):
         for s in os.listdir(dir):
-            # 如果需要忽略某些文件夹，使用以下代码
-            # if s == "xxx":
-            # continue
             newDir = os.path.join(dir, s)
             get_filelist(newDir, Filelist)
     return Filelist
@@ -37,9 +31,7 @@ def wechatcv(filename):
     img = cv2.imdecode(np.fromfile(filename, dtype=np.uint8),-1)
     res,points = detect_obj.detectAndDecode(img)    #res为识别结果，返回为字符串
     #print(filename[-10:-6]) #源程序读取的图片该4位为户号，此处可根据实际情况进行调整
-    #print('res:',res)
     kangyuanshuju.update({filename[-10:-6]:res})
-    #print('points:',points)
 
     '''
     #该段程序用于作图并定位二维码
