@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+@Author: michael_shixiaochen
+@Desc: 抗原二维码的自动识别，主要逻辑如下：
+    导入抗原图片路径——遍历抗原图片——调用wechatCV进行图片识别——输出识别后抗原编码——导出至指定的excel文件里。
+"""
+
 #需要安装opencv-python、opencv-contrib-python、json等库
 import cv2
 import os
@@ -53,6 +60,11 @@ def wechatcv(filename):
 
 
 def export_excel(dic_data,excelname):
+    """
+    导出为excel文件
+    :param dic_data: 需要写入excel的字典数据
+    :param excelname: 导出的excel文件名称
+    """
     # 将字典列表转换为DataFrame
     pf=pd.DataFrame(list(dic_data))
     # 指定字段顺序
