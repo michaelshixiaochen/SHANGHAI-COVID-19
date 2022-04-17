@@ -9,6 +9,10 @@
 
 #### kindergarten 用于给幼儿园班内小朋友是否完成核酸、抗原检测的接龙进行统计
 
+#### SHANGHAIYIQING.py及huangpuYIQING.py用于从上海卫健委网站获取当天上海市及黄浦区疫情数据，相关数据导出至shanghaicoviddata.xlsx中。
+
+
+
 
 
 #### 特技
