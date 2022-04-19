@@ -26,10 +26,14 @@ def get_sh_data(url):
             'id': 'ivs_content',
             'class': 'Article_content'})
     new_text = ivs_content.get_text()
-    style = r'其中(\d+)例确诊病例为此前无症状感染者转归，(\d+)例确诊病例和(\d+)例无症状感染者在隔离管控中发现'
+    #style = r'其中(\d+)例确诊病例为此前无症状感染者转归，(\d+)例确诊病例和(\d+)例无症状感染者在隔离管控中发现'
+    style = r'含既往无症状感染者转为确诊病例(\d+)例）和无症状感染者17332例，实际新增本土阳性感染者19442例，其中(\d+)例确诊病例和(\d+)例无症状感染者在隔离管控中发现'
     zhuangui = int(re.search(style, new_text).group(1))
+    print(zhuangui)
     guankongquezhen = int(re.search(style, new_text).group(2))
+    print(guankongquezhen)
     guankongyisi = int(re.search(style, new_text).group(3))
+    print(guankongyisi)
     return zhuangui, guankongquezhen, guankongyisi
 
 def get_sh_today_news():
@@ -52,14 +56,16 @@ def get_sh_today_news():
         print(title)
         href = 'http://wsjkw.sh.gov.cn' + \
             today_sh_news[i].find_previous_sibling(name='a').attrs['href']  # 网址
-        if title.startswith('昨日新增') or title.startswith('上海2022年'):
+        print(href)
+        if title.startswith('昨日新增') or '上海新增' in title:
             # print(title)
             print(href)
             zhuangui, guankongquezhen, guankongyisi = get_sh_data(href)
+            print(zhuangui)
             sh_dict = {}
             sh_dict['日期'] = today_format
             sh_dict['新增确诊'] = re.findall(r"(?<=\新增本土新冠肺炎确诊病例)\d+", title)
-            sh_dict['新增无症状'] = re.findall(r"(?<=\新增本土无症状感染者)\d+", title)
+            sh_dict['新增无症状'] = re.findall(r"(?<=\本土无症状感染者)\d+", title)
             sh_dict['转归'] = zhuangui
             sh_dict['管控确诊'] = guankongquezhen
             sh_dict['管控无症状'] = guankongyisi
@@ -84,7 +90,7 @@ def get_cookie(url):
 def get_into_excel():
     '''把数据贴到excel里'''
     app = xw.App()
-    wb = app.books.open('shanghaicoviddata .xlsx')
+    wb = app.books.open('shanghaicoviddata.xlsx')
     ws = wb.sheets['march']
     ws1 = wb.sheets['huangpu']
     max_row = ws.range('A1').expand('table').rows.count + 1
