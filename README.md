@@ -11,6 +11,8 @@
 
 #### SHANGHAIYIQING.py及huangpuYIQING.py用于从上海卫健委网站获取当天上海市及黄浦区疫情数据，相关数据导出至shanghaicoviddata.xlsx中。
 
+#### 新增通过明道云调用百度云二维码识别模块进行抗原编码识别功能
+
 
 
 
